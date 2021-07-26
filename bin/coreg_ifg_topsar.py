@@ -76,7 +76,19 @@ if not os.path.exists(logfolder):
 
 outlog=logfolder+'/coreg_ifg_proc_stdout.log'
 
-graphxml=GRAPH+'/coreg_ifg_computation_subset.xml'
+#Check SNAP Version for correct GRAPH
+args = [ 'gpt', '--diag' ]
+process = subprocess.Popen(args, stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+stdout = process.communicate()[0]
+for line in stdout.split("\n"):
+    if "SNAP Release version" in line:
+        snapversion = line.strip().split(" ")[-1]
+
+if float(snapversion) < 7:
+    graphxml=GRAPH+'/coreg_ifg_computation_subset_legacy.xml'
+else:
+    graphxml=GRAPH+'/coreg_ifg_computation_subset.xml'
+
 print graphxml
 graph2run=GRAPH+'/coreg_ifg2run.xml'
 
