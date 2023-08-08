@@ -82,7 +82,7 @@ process = subprocess.Popen(args, stdout=subprocess.PIPE,stderr=subprocess.STDOUT
 stdout = process.communicate()[0]
 for line in stdout.split("\n"):
     if "SNAP Release version" in line:
-        snapversion = line.strip().split(" ")[-1]
+        snapversion = line.strip().split(" ")[-1][0]
 
 if float(snapversion) < 7:
     graphxml=GRAPH+'/coreg_ifg_computation_subset_legacy.xml'
